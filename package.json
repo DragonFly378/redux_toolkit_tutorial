@@ -1,0 +1,19 @@
+{
+  "name": "redux_toolkit_tutorial",
+  "version": "1.0.0",
+  "description": "react redux toolkit tutorial",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DragonFly378/redux_toolkit_tutorial.git"
+  },
+  "author": "dragonfly378",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DragonFly378/redux_toolkit_tutorial/issues"
+  },
+  "homepage": "https://github.com/DragonFly378/redux_toolkit_tutorial#readme"
+}
