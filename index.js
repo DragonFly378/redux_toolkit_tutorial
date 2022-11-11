@@ -19,6 +19,7 @@ const restockCake = (payload) => {
   };
 };
 
+/* Store */
 const initialState = {
   numOfCakes: 10,
   numOfDrinks: 22,
