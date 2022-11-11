@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/DragonFly378/redux_toolkit_tutorial/issues"
   },
-  "homepage": "https://github.com/DragonFly378/redux_toolkit_tutorial#readme"
+  "homepage": "https://github.com/DragonFly378/redux_toolkit_tutorial#readme",
+  "dependencies": {
+    "redux": "^4.2.0"
+  }
 }
