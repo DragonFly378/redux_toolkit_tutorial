@@ -1,6 +1,7 @@
 const redux = require("redux");
 const createStore = redux.createStore;
 const bindActionCreators = redux.bindActionCreators;
+const combineReducers = redux.combineReducers;
 
 const CAKE_ORDERED = "CAKE_ORDERED";
 const RESTOCK_CAKE = "RESTOCK_CAKE";
@@ -8,10 +9,10 @@ const ICECREAM_ORDERED = "ICECREAM_ORDERED";
 const RESTOCK_ICECREAM = "RESTOCK_ICECREAM";
 
 /* Actions */
-const orderCake = () => {
+const orderCake = (payload = 1) => {
   return {
     type: CAKE_ORDERED,
-    quantity: 1,
+    payload: payload,
   };
 };
 
@@ -37,25 +38,35 @@ const restockIceCream = (payload = 1) => {
 };
 
 /* Store */
-const initialState = {
+const initialCakeState = {
   numOfCakes: 10,
+};
+
+const initialIceCreamState = {
   numOfIceCreams: 22,
 };
 
 /* Reducers */
 // (previousState, action) => newState
-const reducer = (state = initialState, action) => {
+const cakeReducer = (state = initialCakeState, action) => {
   switch (action.type) {
     case CAKE_ORDERED:
       return {
         ...state,
-        numOfCakes: state.numOfCakes - 1,
+        numOfCakes: state.numOfCakes - action.payload,
       };
     case RESTOCK_CAKE:
       return {
         ...state,
         numOfCakes: state.numOfCakes + action.payload,
       };
+    default:
+      return state;
+  }
+};
+
+const iceCreamReducer = (state = initialIceCreamState, action) => {
+  switch (action.type) {
     case ICECREAM_ORDERED:
       return {
         ...state,
@@ -71,8 +82,11 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-const store = createStore(reducer);
-
+const rootReducer = combineReducers({
+  cake: cakeReducer,
+  iceCream: iceCreamReducer,
+});
+const store = createStore(rootReducer);
 console.log("initial state ", store.getState());
 
 const unsubscribe = store.subscribe(() =>
