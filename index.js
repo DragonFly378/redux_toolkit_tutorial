@@ -6,3 +6,21 @@ const orderCake = () => {
     quantity: 1,
   };
 };
+
+const initialState = {
+  numOfCakes: 10,
+  numOfDrinks: 22,
+};
+
+// (previousState, action) => newState
+const reducer = (state = initialState, action) => {
+  switch (action.type) {
+    case CAKE_ORDERED:
+      return {
+        ...state,
+        numOfCakes: state.numOfCakes - 1,
+      };
+    default:
+      return state;
+  }
+};
