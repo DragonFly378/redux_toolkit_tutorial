@@ -1,4 +1,6 @@
 const redux = require("redux");
+const produce = require("immer").produce;
+
 const createStore = redux.createStore;
 const bindActionCreators = redux.bindActionCreators;
 const combineReducers = redux.combineReducers;
@@ -9,17 +11,19 @@ const ICECREAM_ORDERED = "ICECREAM_ORDERED";
 const RESTOCK_ICECREAM = "RESTOCK_ICECREAM";
 
 /* Actions */
-const orderCake = (payload = 1) => {
+const orderCake = (flavor, payload = 1) => {
   return {
     type: CAKE_ORDERED,
     payload: payload,
+    flavor: flavor,
   };
 };
 
-const restockCake = (payload = 1) => {
+const restockCake = (flavor, payload = 1) => {
   return {
     type: RESTOCK_CAKE,
     payload: payload,
+    flavor: flavor,
   };
 };
 
@@ -40,6 +44,10 @@ const restockIceCream = (payload = 1) => {
 /* Store */
 const initialCakeState = {
   numOfCakes: 10,
+  flavors: {
+    cokelat: 8,
+    vanilla: 2,
+  },
 };
 
 const initialIceCreamState = {
@@ -51,15 +59,27 @@ const initialIceCreamState = {
 const cakeReducer = (state = initialCakeState, action) => {
   switch (action.type) {
     case CAKE_ORDERED:
-      return {
-        ...state,
-        numOfCakes: state.numOfCakes - action.payload,
-      };
+      // return {
+      //   ...state,
+      //   numOfCakes: state.numOfCakes - action.payload,
+      //   flavors: {
+      //     ...state.flavors,
+      //     [action.flavor]: state.flavors[action.flavor] - action.payload,
+      //   },
+      // };
+      return produce(state, (draft) => {
+        draft.numOfCakes -= action.payload;
+        draft.flavors[action.flavor] -= action.payload;
+      });
     case RESTOCK_CAKE:
-      return {
-        ...state,
-        numOfCakes: state.numOfCakes + action.payload,
-      };
+      // return {
+      //   ...state,
+      //   numOfCakes: state.numOfCakes + action.payload,
+      // };
+      return produce(state, (draft) => {
+        draft.numOfCakes += action.payload;
+        draft.flavors[action.flavor] += action.payload;
+      });
     default:
       return state;
   }
@@ -95,11 +115,6 @@ const unsubscribe = store.subscribe(() =>
 
 // store.dispatch(orderCake());
 // store.dispatch(orderCake());
-// store.dispatch(orderCake());
-// store.dispatch(orderCake());
-// store.dispatch(orderCake());
-// store.dispatch(restockCake(2));
-// store.dispatch(restockCake(2));
 // store.dispatch(restockCake(2));
 // store.dispatch(restockCake(2));
 
@@ -107,12 +122,11 @@ const actions = bindActionCreators(
   { orderCake, restockCake, orderIceCream, restockIceCream },
   store.dispatch
 );
-actions.orderCake();
-actions.restockCake();
-actions.restockCake(2);
-actions.restockCake(5);
-actions.orderCake();
-actions.orderIceCream();
-actions.restockIceCream(3);
+actions.orderCake("cokelat", 2);
+actions.restockCake("vanilla", 10);
+actions.restockCake("cokelat", 5);
+actions.orderCake("vanilla", 4);
+// actions.orderIceCream();
+// actions.restockIceCream(3);
 
 unsubscribe();

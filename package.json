@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/DragonFly378/redux_toolkit_tutorial#readme",
   "dependencies": {
+    "immer": "^9.0.16",
     "redux": "^4.2.0"
   }
 }
